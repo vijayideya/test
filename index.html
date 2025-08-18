@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome to DevOps — Serverless Concepts</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: #111a2b;
+      --ink: #e6eefc;
+      --muted: #9fb2d8;
+      --accent: #5cc8ff;
+      --ring: #2a3b63;
+      --ok: #34d399;
+      --warn: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, #123, transparent), var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 3rem 1rem 4rem; }
+    header {
+      display: grid; gap: 1rem; align-items: center;
+    }
+    h1 {
+      margin: 0; font-size: clamp(2rem, 3.5vw, 3rem); letter-spacing: 0.3px;
+    }
+    .subtitle { color: var(--muted); font-size: 1.05rem; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .35rem .6rem; border: 1px solid var(--ring); border-radius: 999px; color: var(--accent);
+      background: linear-gradient(180deg, rgba(92,200,255,.08), rgba(92,200,255,.02));
+      font-weight: 600; font-size: .9rem;
+    }
+
+    .panel {
+      margin-top: 1.25rem; padding: 1rem; border: 1px solid var(--ring); border-radius: 16px; background: rgba(17,26,43,.6);
+      display: grid; gap: .75rem;
+    }
+    .search { width: 100%; background: #0d1627; color: var(--ink); border: 1px solid var(--ring); border-radius: 12px; padding: .75rem 1rem; font-size: 1rem; }
+
+    .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-top: 1rem; }
+    .card {
+      border: 1px solid var(--ring); border-radius: 16px; padding: 1rem; background: var(--card);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.35); border-color: rgba(92,200,255,.45); }
+    .card h3 { margin: 0 0 .35rem; font-size: 1.1rem; }
+    .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+    .tags { margin-top: .6rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag { font-size: .8rem; border: 1px dashed var(--ring); color: var(--muted); padding: .15rem .5rem; border-radius: 999px; }
+
+    .two-col { display: grid; gap: 1rem; grid-template-columns: 1fr; margin-top: 2rem; }
+    @media (min-width: 860px){ .two-col { grid-template-columns: 1.25fr .9fr; } }
+
+    .list { border: 1px solid var(--ring); border-radius: 16px; background: var(--card); }
+    .list h2 { margin: 0; padding: 1rem; border-bottom: 1px solid var(--ring); font-size: 1.2rem; }
+    .list ul { list-style: none; margin: 0; padding: .5rem 1rem 1rem; display: grid; gap: .5rem; }
+    .list li { display: grid; gap: .25rem; padding: .6rem .6rem; border: 1px dashed var(--ring); border-radius: 12px; }
+    .list small { color: var(--muted); }
+
+    footer { margin-top: 2rem; color: var(--muted); font-size: .9rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="badge">👋 Welcome to DevOps</span>
+      <h1>These are core <span style="color:var(--accent)">Serverless</span> concepts</h1>
+      <p class="subtitle">A fast overview you can drop into any onboarding or knowledge base page.</p>
+    </header>
+
+    <div class="panel" role="search">
+      <label for="q" style="font-weight:600">Quick filter</label>
+      <input id="q" class="search" type="search" placeholder="Type to filter concepts… (e.g. events, security, costs)" />
+    </div>
+
+    <section class="grid" id="cards" aria-label="Serverless concepts">
+      <!-- Cards populated below -->
+    </section>
+
+    <section class="two-col">
+      <div class="list">
+        <h2>Common AWS Serverless Building Blocks</h2>
+        <ul>
+          <li><strong>Lambda</strong> <small>— function runtime (FaaS)</small></li>
+          <li><strong>API Gateway / ALB</strong> <small>— HTTPS front door</small></li>
+          <li><strong>DynamoDB</strong> <small>— NoSQL datastore</small></li>
+          <li><strong>S3</strong> <small>— static hosting & object store</small></li>
+          <li><strong>SQS / SNS / EventBridge</strong> <small>— async messaging & events</small></li>
+          <li><strong>Step Functions</strong> <small>— orchestration / state machines</small></li>
+          <li><strong>CloudWatch / X-Ray</strong> <small>— logs, metrics, tracing</small></li>
+          <li><strong>IAM</strong> <small>— fine-grained permissions</small></li>
+        </ul>
+      </div>
+      <div class="list">
+        <h2>Gotchas & Best Practices</h2>
+        <ul>
+          <li><strong>Cold starts</strong> <small>— mitigate with provisioned/concurrency, smaller bundles</small></li>
+          <li><strong>Idempotency</strong> <small>— avoid duplicate effects on retries</small></li>
+          <li><strong>Backpressure</strong> <small>— tune batch sizes, DLQs, timeouts</small></li>
+          <li><strong>Least privilege</strong> <small>— scope IAM policies tightly</small></li>
+          <li><strong>Observability</strong> <small>— structure logs; add traces/metrics</small></li>
+          <li><strong>Cost awareness</strong> <small>— analyze by request, duration, egress</small></li>
+          <li><strong>IaC first</strong> <small>— CDK, SAM, Terraform to version infra</small></li>
+          <li><strong>Vendor lock-in</strong> <small>— abstract where it matters</small></li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <div>Built for quick sharing. Drop-in single file.</div>
+      <div>💡 Tip: add your team’s links here — runbooks, dashboards, and repos.</div>
+    </footer>
+  </div>
+
+  <script>
+    const concepts = [
+      {
+        title: 'FaaS (Functions as a Service)',
+        desc: 'Deploy discrete functions; scale to zero; pay-per-invocation.',
+        tags: ['lambda','runtime','scale']
+      },
+      {
+        title: 'BaaS (Backend as a Service)',
+        desc: 'Use managed services for auth, storage, queues instead of self-hosting.',
+        tags: ['managed','database','auth']
+      },
+      {
+        title: 'Event-Driven Architecture',
+        desc: 'Emit and react to events; loose coupling with topics, queues and buses.',
+        tags: ['events','sns','sqs','eventbridge']
+      },
+      {
+        title: 'Stateless Compute',
+        desc: 'Keep state in external stores; enable horizontal scaling and retries.',
+        tags: ['scaling','state','dynamodb','s3']
+      },
+      {
+        title: 'Cold Starts',
+        desc: 'First invocation latency due to container/VM startup; optimize packages and memory.',
+        tags: ['latency','performance']
+      },
+      {
+        title: 'Concurrency & Throttling',
+        desc: 'Control parallelism, protect downstreams, and handle retry/DLQ strategies.',
+        tags: ['retries','limits','dlq']
+      },
+      {
+        title: 'Security & IAM',
+        desc: 'Least privilege, short-lived creds, VPC egress control, and secrets management.',
+        tags: ['iam','kms','secrets']
+      },
+      {
+        title: 'Observability',
+        desc: 'Structured logs, metrics, tracing (e.g., X-Ray) to debug distributed systems.',
+        tags: ['logging','metrics','traces']
+      },
+      {
+        title: 'IaC & CI/CD',
+        desc: 'Define infra as code; automate builds, tests, and deployments.',
+        tags: ['terraform','sam','cdk','pipelines']
+      },
+      {
+        title: 'Cost Model',
+        desc: 'Pay per request, duration, and data transfer; design for efficiency.',
+        tags: ['billing','optimization']
+      },
+      {
+        title: 'Orchestration vs. Choreography',
+        desc: 'Centralized state machines vs. event-chained services — pick per workflow.',
+        tags: ['step functions','workflow']
+      },
+      {
+        title: 'Testing Strategies',
+        desc: 'Contract tests, local emulators, and integration suites over unit-only.',
+        tags: ['tests','quality']
+      }
+    ];
+
+    const container = document.getElementById('cards');
+    const render = (items) => {
+      container.innerHTML = items.map(c => `
+        <article class="card" data-tags="${c.tags.join(' ')}">
+          <h3>${c.title}</h3>
+          <p>${c.desc}</p>
+          <div class="tags">${c.tags.map(t => `<span class='tag'>${t}</span>`).join('')}</div>
+        </article>
+      `).join('');
+    };
+
+    render(concepts);
+
+    const q = document.getElementById('q');
+    q.addEventListener('input', (e) => {
+      const term = e.target.value.trim().toLowerCase();
+      if (!term) return render(concepts);
+      const filtered = concepts.filter(c =>
+        c.title.toLowerCase().includes(term) ||
+        c.desc.toLowerCase().includes(term) ||
+        c.tags.some(t => t.toLowerCase().includes(term))
+      );
+      render(filtered);
+    });
+  </script>
+</body>
+</html>
